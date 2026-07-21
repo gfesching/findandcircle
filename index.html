@@ -1,14 +1,13 @@
-# findandcircle
 <!doctype html>
 <html lang="zh-Hant">
- <head><script>window["__codeletBootstrap__"]=JSON.parse('{"A":"A","B":"20260721-01-d99ca90"}');</script><script src="/_sdk/f432b76fb310b513.telemetry_sdk.js" integrity="sha512-9FJQ55EKmmqhyyik8BhrMVfm0+iYYfb8uOlRsjtkxJMEI97qOVEI4PnHohDjQAtvAep0IOEpdQ64eki0sz62ug=="></script>
+ <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Music Note Worksheet</title>
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;800&amp;family=Noto+Sans+TC:wght@400;500;700;900&amp;display=swap" rel="stylesheet">
-  <script src="/_sdk/e3937a0574eb2d69.data_sdk.js" integrity="sha512-xbp/ACqEQy1aDxYMtXTrR3y5MUbzxuggRR/9sD48Gl4VhLMMCiAHsxMaFV6DTdeBpR6ymF+t2zhPKYkWM3+Jfw=="></script>
+  <script src="/_sdk/data_sdk.js"></script>
   <style>
     :root {
       --ink: #252016;
@@ -199,11 +198,6 @@
       pointer-events: none;
     }
 
-    /* Target specific note calibration adjustments for the new sheet */
-    .note-target[data-note="Do"]::after {
-      inset: -12%;
-    }
-
     .note-target.is-selected::after {
       opacity: 1;
       transform: scale(1) rotate(-10deg);
@@ -307,22 +301,25 @@
       .seat-button { min-height: 38px; font-size: .9rem; }
     }
   </style>
-  <script src="/_sdk/9432170dbd2ae0df.resizing_sdk.js" type="text/javascript" integrity="sha512-FeT+58sb1f9ejWPWFjCbJvTT+SDwGV+ngrHUnlO7TWEOoqwOLj6p256kO3vOL7DIWl1cIgrobiof8v2bOigwPg=="></script>
  </head>
  <body data-template-id="__page-root">
   <div class="worksheet-shell">
    <div class="page-content">
     <header data-template-id="header-panel" class="canva-header paper-card rounded-[30px] px-6 py-7 sm:px-10 sm:py-9">
-     <div class="flex items-center justify-center gap-3 text-center"><span aria-hidden="true" class="text-3xl text-orange-500 animate-pulse">✨</span>
+     <div class="flex items-center justify-center gap-3 text-center">
+      <span aria-hidden="true" class="text-3xl text-orange-500 animate-pulse">✨</span>
       <h1 data-template-id="worksheet-title" class="canva-text m-0 font-black leading-tight"></h1><span aria-hidden="true" class="text-3xl text-orange-500 animate-pulse">✨</span>
      </div>
-     <section data-template-id="student-info-panel" class="canva-panel mt-7 rounded-[22px] border-2 border-[#e6c98d] bg-[#fff7d8] p-4 sm:p-5">
-      <div class="grid gap-4 md:grid-cols-[1fr_2fr]">
-       <div class="student-field"><label data-template-id="class-name-label" class="canva-text block font-black text-[#6b421b]" for="className"></label> <input id="className" type="text" autocomplete="off">
+     <section data-template-id="student-info-panel" class="canva-panel mt-7 rounded-[22px] border-2 border-[#e6c98d] bg-[#fff7d8] p-4 sm:p-5" aria-labelledby="student-info-heading">
+      <h2 id="student-info-heading" data-template-id="student-info-heading-text" class="canva-text mb-4 font-black"></h2>
+      <div class="grid gap-4 lg:grid-cols-[.9fr_1.7fr]">
+       <div class="student-field">
+        <label data-template-id="class-name-label" class="canva-text block font-black text-[#6b421b]" for="className"></label> <input id="className" type="text" autocomplete="off">
        </div>
        <div class="student-field">
         <p data-template-id="seat-number-label" class="canva-text mb-2 font-black text-[#6b421b]"></p>
-        <div id="studentSeatGrid" class="seat-grid" role="radiogroup" aria-label="Select Seat"><button type="button" class="seat-button" data-seat="1" role="radio" aria-checked="false">1</button> <button type="button" class="seat-button" data-seat="2" role="radio" aria-checked="false">2</button> <button type="button" class="seat-button" data-seat="3" role="radio" aria-checked="false">3</button> <button type="button" class="seat-button" data-seat="4" role="radio" aria-checked="false">4</button> <button type="button" class="seat-button" data-seat="5" role="radio" aria-checked="false">5</button> <button type="button" class="seat-button" data-seat="6" role="radio" aria-checked="false">6</button> <button type="button" class="seat-button" data-seat="7" role="radio" aria-checked="false">7</button> <button type="button" class="seat-button" data-seat="8" role="radio" aria-checked="false">8</button> <button type="button" class="seat-button" data-seat="9" role="radio" aria-checked="false">9</button> <button type="button" class="seat-button" data-seat="10" role="radio" aria-checked="false">10</button> <button type="button" class="seat-button" data-seat="11" role="radio" aria-checked="false">11</button> <button type="button" class="seat-button" data-seat="12" role="radio" aria-checked="false">12</button> <button type="button" class="seat-button" data-seat="13" role="radio" aria-checked="false">13</button> <button type="button" class="seat-button" data-seat="14" role="radio" aria-checked="false">14</button> <button type="button" class="seat-button" data-seat="15" role="radio" aria-checked="false">15</button> <button type="button" class="seat-button" data-seat="16" role="radio" aria-checked="false">16</button> <button type="button" class="seat-button" data-seat="17" role="radio" aria-checked="false">17</button> <button type="button" class="seat-button" data-seat="18" role="radio" aria-checked="false">18</button> <button type="button" class="seat-button" data-seat="19" role="radio" aria-checked="false">19</button> <button type="button" class="seat-button" data-seat="20" role="radio" aria-checked="false">20</button> <button type="button" class="seat-button" data-seat="21" role="radio" aria-checked="false">21</button> <button type="button" class="seat-button" data-seat="22" role="radio" aria-checked="false">22</button> <button type="button" class="seat-button" data-seat="23" role="radio" aria-checked="false">23</button> <button type="button" class="seat-button" data-seat="24" role="radio" aria-checked="false">24</button> <button type="button" class="seat-button" data-seat="25" role="radio" aria-checked="false">25</button>
+        <div id="studentSeatGrid" class="seat-grid" role="radiogroup" aria-label="選擇座號">
+         <button type="button" class="seat-button" data-seat="1" role="radio" aria-checked="false">1</button> <button type="button" class="seat-button" data-seat="2" role="radio" aria-checked="false">2</button> <button type="button" class="seat-button" data-seat="3" role="radio" aria-checked="false">3</button> <button type="button" class="seat-button" data-seat="4" role="radio" aria-checked="false">4</button> <button type="button" class="seat-button" data-seat="5" role="radio" aria-checked="false">5</button> <button type="button" class="seat-button" data-seat="6" role="radio" aria-checked="false">6</button> <button type="button" class="seat-button" data-seat="7" role="radio" aria-checked="false">7</button> <button type="button" class="seat-button" data-seat="8" role="radio" aria-checked="false">8</button> <button type="button" class="seat-button" data-seat="9" role="radio" aria-checked="false">9</button> <button type="button" class="seat-button" data-seat="10" role="radio" aria-checked="false">10</button> <button type="button" class="seat-button" data-seat="11" role="radio" aria-checked="false">11</button> <button type="button" class="seat-button" data-seat="12" role="radio" aria-checked="false">12</button> <button type="button" class="seat-button" data-seat="13" role="radio" aria-checked="false">13</button> <button type="button" class="seat-button" data-seat="14" role="radio" aria-checked="false">14</button> <button type="button" class="seat-button" data-seat="15" role="radio" aria-checked="false">15</button> <button type="button" class="seat-button" data-seat="16" role="radio" aria-checked="false">16</button> <button type="button" class="seat-button" data-seat="17" role="radio" aria-checked="false">17</button> <button type="button" class="seat-button" data-seat="18" role="radio" aria-checked="false">18</button> <button type="button" class="seat-button" data-seat="19" role="radio" aria-checked="false">19</button> <button type="button" class="seat-button" data-seat="20" role="radio" aria-checked="false">20</button> <button type="button" class="seat-button" data-seat="21" role="radio" aria-checked="false">21</button> <button type="button" class="seat-button" data-seat="22" role="radio" aria-checked="false">22</button> <button type="button" class="seat-button" data-seat="23" role="radio" aria-checked="false">23</button> <button type="button" class="seat-button" data-seat="24" role="radio" aria-checked="false">24</button> <button type="button" class="seat-button" data-seat="25" role="radio" aria-checked="false">25</button>
         </div>
        </div>
       </div>
@@ -333,7 +330,8 @@
       <div class="mb-4 flex flex-wrap items-center justify-between gap-3">
        <h2 id="reference-heading" data-template-id="reference-heading-text" class="canva-text font-black"></h2><span data-template-id="reference-tip" class="canva-tag rounded-full px-3 py-1 font-bold"></span>
       </div>
-      <div class="music-stage"><img data-template-id="reference-image" loading="lazy" class="canva-image"> <!-- Precise note targets mapping the 3rd staff row (Do, Re, Mi, Fa, Sol, La, Si) on the new sheet --> <button type="button" class="note-target" data-note="Do" aria-label="圈選 Do" style="left: 20.3%; top: 73.2%; width: 5.5%;"></button> <button type="button" class="note-target" data-note="Re" aria-label="圈選 Re" style="left: 29.8%; top: 70.0%; width: 5.5%;"></button> <button type="button" class="note-target" data-note="Mi" aria-label="圈選 Mi" style="left: 39.5%; top: 68.2%; width: 5.5%;"></button> <button type="button" class="note-target" data-note="Fa" aria-label="圈選 Fa" style="left: 49.3%; top: 66.5%; width: 5.5%;"></button> <button type="button" class="note-target" data-note="Sol" aria-label="圈選 Sol" style="left: 58.7%; top: 64.0%; width: 5.5%;"></button> <button type="button" class="note-target" data-note="La" aria-label="圈選 La" style="left: 68.1%; top: 61.2%; width: 5.5%;"></button> <button type="button" class="note-target" data-note="Si" aria-label="圈選 Si" style="left: 77.1%; top: 59.2%; width: 5.5%;"></button>
+      <div class="music-stage">
+       <img data-template-id="reference-image" loading="lazy" class="canva-image"> <!-- Precise note targets mapping the 3rd staff row (Do, Re, Mi, Fa, Sol, La, Si) --> <button type="button" class="note-target" data-note="Do" aria-label="圈選 Do" style="left:21.8%; top:73.5%;"></button> <button type="button" class="note-target" data-note="Re" aria-label="圈選 Re" style="left:31.2%; top:71.0%;"></button> <button type="button" class="note-target" data-note="Mi" aria-label="圈選 Mi" style="left:40.5%; top:68.0%;"></button> <button type="button" class="note-target" data-note="Fa" aria-label="圈選 Fa" style="left:50.0%; top:65.5%;"></button> <button type="button" class="note-target" data-note="Sol" aria-label="圈選 Sol" style="left:59.2%; top:62.5%;"></button> <button type="button" class="note-target" data-note="La" aria-label="圈選 La" style="left:68.5%; top:59.5%;"></button> <button type="button" class="note-target" data-note="Si" aria-label="圈選 Si" style="left:77.8%; top:56.5%;"></button>
       </div>
      </section>
      <section data-template-id="drawing-panel" class="canva-section paper-card rounded-[30px] p-5 sm:p-7" aria-labelledby="drawing-heading">
@@ -342,9 +340,11 @@
         <h2 id="drawing-heading" data-template-id="drawing-heading-text" class="canva-text m-0 font-black"></h2>
        </div>
        <div class="flex flex-wrap items-center gap-4">
-        <div class="flex items-center gap-1.5 rounded-2xl border border-[#e6c98d] bg-[#fff0bf] p-1.5" role="radiogroup" aria-label="畫筆顏色"><button type="button" class="color-swatch h-8 w-8 rounded-full border-2 border-transparent transition-all hover:scale-110" style="background-color:#d54d43" data-color="#d54d43" aria-label="紅色" aria-checked="true"></button> <button type="button" class="color-swatch h-8 w-8 rounded-full border-2 border-transparent transition-all hover:scale-110" style="background-color:#e5681b" data-color="#e5681b" aria-label="橘色" aria-checked="false"></button> <button type="button" class="color-swatch h-8 w-8 rounded-full border-2 border-transparent transition-all hover:scale-110" style="background-color:#f5b041" data-color="#f5b041" aria-label="黃色" aria-checked="false"></button> <button type="button" class="color-swatch h-8 w-8 rounded-full border-2 border-transparent transition-all hover:scale-110" style="background-color:#3e9f62" data-color="#3e9f62" aria-label="綠色" aria-checked="false"></button> <button type="button" class="color-swatch h-8 w-8 rounded-full border-2 border-transparent transition-all hover:scale-110" style="background-color:#287fbd" data-color="#287fbd" aria-label="藍色" aria-checked="false"></button> <button type="button" class="color-swatch h-8 w-8 rounded-full border-2 border-transparent transition-all hover:scale-110" style="background-color:#7956a3" data-color="#7956a3" aria-label="紫色" aria-checked="false"></button>
+        <div class="flex items-center gap-1.5 rounded-2xl border border-[#e6c98d] bg-[#fff0bf] p-1.5" role="radiogroup" aria-label="畫筆顏色">
+         <button type="button" class="color-swatch h-8 w-8 rounded-full border-2 border-transparent transition-all hover:scale-110" style="background-color:#d54d43" data-color="#d54d43" aria-label="紅色" aria-checked="true"></button> <button type="button" class="color-swatch h-8 w-8 rounded-full border-2 border-transparent transition-all hover:scale-110" style="background-color:#e5681b" data-color="#e5681b" aria-label="橘色" aria-checked="false"></button> <button type="button" class="color-swatch h-8 w-8 rounded-full border-2 border-transparent transition-all hover:scale-110" style="background-color:#f5b041" data-color="#f5b041" aria-label="黃色" aria-checked="false"></button> <button type="button" class="color-swatch h-8 w-8 rounded-full border-2 border-transparent transition-all hover:scale-110" style="background-color:#3e9f62" data-color="#3e9f62" aria-label="綠色" aria-checked="false"></button> <button type="button" class="color-swatch h-8 w-8 rounded-full border-2 border-transparent transition-all hover:scale-110" style="background-color:#287fbd" data-color="#287fbd" aria-label="藍色" aria-checked="false"></button> <button type="button" class="color-swatch h-8 w-8 rounded-full border-2 border-transparent transition-all hover:scale-110" style="background-color:#7956a3" data-color="#7956a3" aria-label="紫色" aria-checked="false"></button>
         </div>
-        <div class="flex flex-wrap gap-2" role="toolbar" aria-label="繪圖工具"><button id="penButton" data-template-id="pen-button" class="canva-button tool-button bg-[#e5681b] text-white" type="button" aria-pressed="true"> <i data-lucide="pencil" class="h-5 w-5" aria-hidden="true"></i><span></span> </button> <button id="eraserButton" data-template-id="eraser-button" class="canva-button tool-button bg-[#e7dfcc] text-[#3e321e]" type="button" aria-pressed="false"> <i data-lucide="eraser" class="h-5 w-5" aria-hidden="true"></i><span></span> </button> <button id="clearButton" data-template-id="clear-button" class="canva-button tool-button bg-[#5d4630] text-white" type="button"> <i data-lucide="rotate-ccw" class="h-5 w-5" aria-hidden="true"></i><span></span> </button>
+        <div class="flex flex-wrap gap-2" role="toolbar" aria-label="繪圖工具">
+         <button id="penButton" data-template-id="pen-button" class="canva-button tool-button bg-[#e5681b] text-white" type="button" aria-pressed="true"> <i data-lucide="pencil" class="h-5 w-5" aria-hidden="true"></i><span></span> </button> <button id="eraserButton" data-template-id="eraser-button" class="canva-button tool-button bg-[#e7dfcc] text-[#3e321e]" type="button" aria-pressed="false"> <i data-lucide="eraser" class="h-5 w-5" aria-hidden="true"></i><span></span> </button> <button id="clearButton" data-template-id="clear-button" class="canva-button tool-button bg-[#5d4630] text-white" type="button"> <i data-lucide="rotate-ccw" class="h-5 w-5" aria-hidden="true"></i><span></span> </button>
         </div>
        </div>
       </div>
@@ -355,7 +355,8 @@
      </section>
      <section data-template-id="submit-panel" class="canva-panel paper-card rounded-[30px] p-5 text-center sm:p-7" aria-labelledby="submit-heading">
       <div class="mx-auto max-w-2xl">
-       <div class="mb-3 flex justify-center text-[#d56b1d]"><i data-lucide="send" class="h-8 w-8" aria-hidden="true"></i>
+       <div class="mb-3 flex justify-center text-[#d56b1d]">
+        <i data-lucide="send" class="h-8 w-8" aria-hidden="true"></i>
        </div>
        <h2 id="submit-heading" data-template-id="submit-heading-text" class="canva-text m-0 font-black"></h2>
        <p data-template-id="submit-help" class="canva-text mt-2 mb-5 font-medium"></p><button id="submitButton" data-template-id="submit-button" class="canva-button tool-button bg-[#3e9f62] text-white" type="button"> <i data-lucide="check-circle-2" class="h-5 w-5" aria-hidden="true"></i><span></span> </button>
@@ -369,7 +370,8 @@
         <p data-template-id="teacher-help" class="canva-text mt-2"></p>
        </div><span id="submissionCount" class="rounded-full bg-[#fbe3a3] px-3 py-1 font-black text-[#87501b]" aria-live="polite">0</span>
       </div>
-      <div id="teacherSeatGrid" class="seat-grid mt-5" aria-label="老師座號檢視"><button type="button" class="seat-button" data-review-seat="1">1</button> <button type="button" class="seat-button" data-review-seat="2">2</button> <button type="button" class="seat-button" data-review-seat="3">3</button> <button type="button" class="seat-button" data-review-seat="4">4</button> <button type="button" class="seat-button" data-review-seat="5">5</button> <button type="button" class="seat-button" data-review-seat="6">6</button> <button type="button" class="seat-button" data-review-seat="7">7</button> <button type="button" class="seat-button" data-review-seat="8">8</button> <button type="button" class="seat-button" data-review-seat="9">9</button> <button type="button" class="seat-button" data-review-seat="10">10</button> <button type="button" class="seat-button" data-review-seat="11">11</button> <button type="button" class="seat-button" data-review-seat="12">12</button> <button type="button" class="seat-button" data-review-seat="13">13</button> <button type="button" class="seat-button" data-review-seat="14">14</button> <button type="button" class="seat-button" data-review-seat="15">15</button> <button type="button" class="seat-button" data-review-seat="16">16</button> <button type="button" class="seat-button" data-review-seat="17">17</button> <button type="button" class="seat-button" data-review-seat="18">18</button> <button type="button" class="seat-button" data-review-seat="19">19</button> <button type="button" class="seat-button" data-review-seat="20">20</button> <button type="button" class="seat-button" data-review-seat="21">21</button> <button type="button" class="seat-button" data-review-seat="22">22</button> <button type="button" class="seat-button" data-review-seat="23">23</button> <button type="button" class="seat-button" data-review-seat="24">24</button> <button type="button" class="seat-button" data-review-seat="25">25</button>
+      <div id="teacherSeatGrid" class="seat-grid mt-5" aria-label="老師座號檢視">
+       <button type="button" class="seat-button" data-review-seat="1">1</button> <button type="button" class="seat-button" data-review-seat="2">2</button> <button type="button" class="seat-button" data-review-seat="3">3</button> <button type="button" class="seat-button" data-review-seat="4">4</button> <button type="button" class="seat-button" data-review-seat="5">5</button> <button type="button" class="seat-button" data-review-seat="6">6</button> <button type="button" class="seat-button" data-review-seat="7">7</button> <button type="button" class="seat-button" data-review-seat="8">8</button> <button type="button" class="seat-button" data-review-seat="9">9</button> <button type="button" class="seat-button" data-review-seat="10">10</button> <button type="button" class="seat-button" data-review-seat="11">11</button> <button type="button" class="seat-button" data-review-seat="12">12</button> <button type="button" class="seat-button" data-review-seat="13">13</button> <button type="button" class="seat-button" data-review-seat="14">14</button> <button type="button" class="seat-button" data-review-seat="15">15</button> <button type="button" class="seat-button" data-review-seat="16">16</button> <button type="button" class="seat-button" data-review-seat="17">17</button> <button type="button" class="seat-button" data-review-seat="18">18</button> <button type="button" class="seat-button" data-review-seat="19">19</button> <button type="button" class="seat-button" data-review-seat="20">20</button> <button type="button" class="seat-button" data-review-seat="21">21</button> <button type="button" class="seat-button" data-review-seat="22">22</button> <button type="button" class="seat-button" data-review-seat="23">23</button> <button type="button" class="seat-button" data-review-seat="24">24</button> <button type="button" class="seat-button" data-review-seat="25">25</button>
       </div>
       <div class="review-card mt-6 rounded-[20px] border-2 border-dashed border-[#d69a42] bg-[#fff8df] p-5">
        <div id="reviewEmpty" class="review-empty">
@@ -407,7 +409,6 @@
     </main>
    </div>
   </div>
-  <script src="/_sdk/7bc22c877bd41881.editing_sdk.js" integrity="sha512-w+loWc8iNWJjaxLkSer0H0nUl/sFG+bxZK8bymKEC6R482TTHgJnQyMAxBE+v2+MMFpBjnl1umrBRJ3vfqzFCA=="></script>
   <script>
     document.addEventListener("DOMContentLoaded", async () => {
       lucide.createIcons();
@@ -576,7 +577,7 @@
           const seat = button.dataset.reviewSeat;
           button.classList.toggle("is-submitted", submittedSeats.has(seat));
           button.classList.toggle("is-selected", selectedReviewSeat === seat);
-          button.setAttribute("aria-label", submittedSeats.has(seat) ? "Seat " + seat + ", submitted. Click to review" : "Seat " + seat + ", not submitted");
+          button.setAttribute("aria-label", submittedSeats.has(seat) ? "座號 " + seat + "，已有繳交，點選查看" : "座號 " + seat + "，尚未繳交");
         });
 
         submissionCount.textContent = latestRecordsBySeat().length + " / 25";
@@ -594,8 +595,8 @@
 
         document.getElementById("reviewClass").textContent = record.class_name || "—";
         document.getElementById("reviewSeat").textContent = record.seat_number || "—";
-        document.getElementById("reviewNotes").textContent = record.selected_notes || "No notes selected";
-        document.getElementById("reviewDrawing").textContent = record.drawing_data || "No drawing used";
+        document.getElementById("reviewNotes").textContent = record.selected_notes || "尚未圈選音符";
+        document.getElementById("reviewDrawing").textContent = record.drawing_data || "未使用繪圖區";
 
         // Render live stroke visualization if records are stored
         const rContainer = document.getElementById("reviewCanvasContainer");
@@ -669,7 +670,7 @@
 
         const time = record.submitted_at ? new Date(record.submitted_at) : null;
         document.getElementById("reviewTime").textContent = time && !Number.isNaN(time.getTime())
-          ? "Submitted at: " + time.toLocaleString()
+          ? "送出時間：" + time.toLocaleString("zh-TW")
           : "";
 
         reviewEmpty.classList.add("is-hidden");
@@ -748,7 +749,7 @@
         const result = await window.dataSdk.init(dataHandler);
         sdkReady = result.isOk;
         if (!sdkReady) {
-          submitStatus.textContent = "Unable to connect, please try again later.";
+          submitStatus.textContent = "目前無法連線，請稍後再試。";
           submitStatus.className = "mt-4 min-h-6 font-bold text-[#c44731]";
         }
       }
@@ -757,13 +758,13 @@
         const className = classNameInput.value.trim();
 
         if (!className || !selectedSeat) {
-          submitStatus.textContent = "Please fill in Class and select Seat before submitting.";
+          submitStatus.textContent = "請先填寫班級並選擇座號，再送出學習單。";
           submitStatus.className = "mt-4 min-h-6 font-bold text-[#c44731]";
           return;
         }
 
         if (!sdkReady) {
-          submitStatus.textContent = "Unable to submit, please try again later.";
+          submitStatus.textContent = "目前無法送出，請稍後再試。";
           submitStatus.className = "mt-4 min-h-6 font-bold text-[#c44731]";
           return;
         }
@@ -773,22 +774,22 @@
         );
 
         if (records.length >= 999 && matchingRecords.length === 0) {
-          submitStatus.textContent = "Worksheet storage limit reached. Please contact your teacher.";
+          submitStatus.textContent = "已達到可儲存的學習單上限，請通知老師。";
           submitStatus.className = "mt-4 min-h-6 font-bold text-[#c44731]";
           return;
         }
 
         submitButton.disabled = true;
         submitButton.classList.add("opacity-60", "cursor-not-allowed");
-        submitStatus.textContent = "Submitting worksheet...";
+        submitStatus.textContent = "正在送出學習單…";
         submitStatus.className = "mt-4 min-h-6 font-bold text-[#7a5127]";
 
         const latestMatch = matchingRecords.sort((a, b) => new Date(b.submitted_at) - new Date(a.submitted_at))[0];
         const payload = {
           class_name: className,
           seat_number: selectedSeat,
-          selected_notes: Array.from(selectedNotes).join(", "),
-          drawing_data: hasDrawing ? "Completed Drawing" : "No Drawing Used",
+          selected_notes: Array.from(selectedNotes).join("、"),
+          drawing_data: hasDrawing ? "已完成繪圖或書寫" : "未使用繪圖區",
           drawing_strokes: JSON.stringify(strokes),
           submitted_at: new Date().toISOString()
         };
@@ -804,10 +805,10 @@
         submitButton.classList.remove("opacity-60", "cursor-not-allowed");
 
         if (result.isOk) {
-          submitStatus.textContent = "Success! Your teacher has received your worksheet.";
+          submitStatus.textContent = "完成！老師已收到你的學習單。";
           submitStatus.className = "mt-4 min-h-6 font-bold text-[#27834b]";
         } else {
-          submitStatus.textContent = "Submission failed. Please check your network and try again.";
+          submitStatus.textContent = "送出失敗，請檢查網路後再試一次。";
           submitStatus.className = "mt-4 min-h-6 font-bold text-[#c44731]";
         }
       });
