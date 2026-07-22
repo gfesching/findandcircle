@@ -1,13 +1,14 @@
 <!doctype html>
 <html lang="zh-Hant">
- <head>
+ <head><script>window["__codeletBootstrap__"]=JSON.parse('{"A":"A","B":"20260722-03-297a220"}');</script><script src="/_sdk/e358eac22bd01364.telemetry_sdk.js" integrity="sha512-KPxp3rw4K8Nu9ceWJc3gyM7srgaZxiFWOVbyu260EYzzAqdz10mfo5xyXrCx+wEKtGo77JbtmwXvFLbwrGzwvw=="></script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Music Note Worksheet</title>
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;800&amp;family=Noto+Sans+TC:wght@400;500;700;900&amp;display=swap" rel="stylesheet">
-  <script src="/_sdk/data_sdk.js"></script>
+  <script src="/_sdk/935a53bc2e11fb8d.data_sdk.js" integrity="sha512-qr2oyPnEys1WebcOABaRh6hG77r5PWpqeWW6JTKbRJqly/INsfBi31CVNlTmHqjgeLpkVmmHZJUdxSx/32tOFQ=="></script>
+  <script src="/_sdk/7831c9b82769a23f.resizing_sdk.js" integrity="sha512-8T/qhF3yB5dtqHof6yvY2492zFsme1nYV1+FuXfYvPz63uo2L30fnKiOabmH0Sl3qhplMLgxjytDR8IvycRwKQ=="></script>
   <style>
     :root {
       --ink: #252016;
@@ -22,6 +23,7 @@
     * { box-sizing: border-box; }
 
     body {
+      width: 100%;
       margin: 0;
       min-width: 320px;
       color: var(--ink);
@@ -37,8 +39,8 @@
       overflow: hidden;
       padding: 28px 18px 44px;
       background:
-        radial-gradient(circle at 10% 8%, rgba(255, 235, 177, 0.34) 0 3%, transparent 16%),
-        radial-gradient(circle at 84% 22%, rgba(255, 232, 163, 0.28) 0 4%, transparent 18%),
+        radial-gradient(circle at 10% 8%, rgba(255, 235, 177, .34) 0 3%, transparent 16%),
+        radial-gradient(circle at 84% 22%, rgba(255, 232, 163, .28) 0 4%, transparent 18%),
         linear-gradient(145deg, #9d310d 0%, #e36916 28%, #f4b147 59%, #bc3e11 100%);
     }
 
@@ -119,18 +121,18 @@
 
     .seat-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(38px, 1fr));
-      gap: 6px;
+      grid-template-columns: repeat(auto-fill, minmax(28px, 1fr));
+      gap: 4px;
     }
 
     .seat-button {
-      min-height: 34px;
-      border: 1.5px solid #e4bd76;
-      border-radius: 8px;
+      min-height: 26px;
+      border: 1px solid #e4bd76;
+      border-radius: 6px;
       background: #fff8de;
       color: #70451d;
       font-weight: 800;
-      font-size: 0.85rem;
+      font-size: .75rem;
       transition: transform 150ms ease, background 150ms ease, color 150ms ease, box-shadow 150ms ease;
     }
 
@@ -143,7 +145,7 @@
       border-color: #8d310c;
       background: #e5681b;
       color: white;
-      box-shadow: 0 2px 0 rgba(128, 47, 13, .25);
+      box-shadow: 0 1px 0 rgba(128, 47, 13, .25);
     }
 
     .seat-button.is-submitted {
@@ -158,60 +160,96 @@
       border-color: #236238;
     }
 
-    .music-stage {
+    .staff-stage {
       position: relative;
       overflow: hidden;
       border: 2px solid #d39137;
       border-radius: 20px;
-      background: #f6cf7c;
-      aspect-ratio: 549 / 309;
+      background: #fdf5e2;
     }
 
-    .music-stage img {
+    .staff-paper {
+      position: relative;
+      width: 100%;
+      height: 0;
+      padding-bottom: 55%; /* 保持 1.8:1 黃金比例，確保音符按鈕完美覆蓋背景 */
+    }
+
+    .staff-image {
+      position: absolute;
+      inset: 0;
       width: 100%;
       height: 100%;
       object-fit: cover;
-      display: block;
+      pointer-events: none;
+      z-index: 1;
     }
 
-    .note-target {
+    .staff-row {
       position: absolute;
-      width: 5.5%;
-      aspect-ratio: 1;
-      border: 0;
-      background: transparent;
-      border-radius: 999px;
-      cursor: pointer;
+      inset: 0;
+      width: 100%;
+      height: 100%;
       z-index: 2;
     }
 
-    .note-target::after {
+    .note-button {
+      position: absolute;
+      z-index: 4;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 46px;
+      height: 46px;
+      margin-left: -23px; /* 完美居中對齊百分比 */
+      margin-top: -23px;  /* 完美居中對齊百分比 */
+      padding: 0;
+      border: 0;
+      background: transparent;
+      cursor: pointer;
+      transition: transform 160ms ease;
+    }
+
+    .note-button:hover { transform: scale(1.15); }
+
+    .note-button::before {
       content: "";
       position: absolute;
-      inset: -15%;
-      border: clamp(2px, .45vw, 4px) solid #d9342e;
+      width: 44px;
+      height: 44px;
+      border: 4px solid transparent;
       border-radius: 50%;
-      opacity: 0;
-      transform: scale(.55) rotate(-10deg);
-      transition: opacity 150ms ease, transform 180ms ease;
-      box-shadow: 0 0 0 2px rgba(255, 248, 230, .7);
-      pointer-events: none;
+      transition: border-color 160ms ease, transform 160ms ease;
     }
 
-    .note-target.is-selected::after {
-      opacity: 1;
-      transform: scale(1) rotate(-10deg);
+    .note-button.is-selected::before {
+      border-color: #e12d2d;
+      transform: scale(1.05);
+      box-shadow: 0 0 0 3px rgba(225, 45, 45, .25);
     }
 
-    .note-target:hover::after,
-    .note-target:focus-visible::after {
-      opacity: .55;
-      transform: scale(.9) rotate(-10deg);
+    /* 精準對齊第三行五線譜上對應的空心音符中心位置 - 修正位置向下移動 */
+    .note-do { left: 23.3%; top: 77.7%; }
+    .note-re { left: 32.5%; top: 76.2%; } /* 往下0.1行 (約+1.2%) */
+    .note-mi { left: 42.3%; top: 74.0%; } /* 往右0.1行 (約+1.0%) */
+    .note-fa { left: 51.6%; top: 72.4%; } /* 往上0.01行 (約-0.12% 行, top 減去約1.2%) */
+    .note-sol { left: 61.2%; top: 71.3%; } /* 往右0.1行 (約+1.0%), 往上0.1行 (約-1.2%) */
+    .note-la { left: 70.3%; top: 70.3%; } /* 往上0.01行 (約-1.2% 改為 top: 70.3%) */
+    .note-si { left: 79.1%; top: 68.1%; } /* 往上0.3行 (約-3.6%) */
+
+    .selection-chip {
+      border: 1px solid #e5b15d;
+      border-radius: 999px;
+      background: #fff2c4;
+      color: #7a3e14;
+      padding: 5px 10px;
+      font-size: .9rem;
+      font-weight: 900;
     }
 
     .draw-area {
       position: relative;
-      min-height: 320px;
+      min-height: 300px;
       overflow: hidden;
       border: 3px dashed #dea247;
       border-radius: 22px;
@@ -228,21 +266,6 @@
       cursor: crosshair;
     }
 
-    .canvas-message {
-      position: absolute;
-      inset: 0;
-      display: grid;
-      place-items: center;
-      padding: 24px;
-      color: rgba(122, 84, 32, .56);
-      text-align: center;
-      font-weight: 700;
-      pointer-events: none;
-      transition: opacity 180ms ease;
-    }
-
-    .canvas-message.is-hidden { opacity: 0; }
-
     .tool-button {
       display: inline-flex;
       align-items: center;
@@ -256,7 +279,7 @@
       transition: transform 150ms ease, box-shadow 150ms ease;
     }
 
-    .tool-button:hover {
+    .tool-button:hover:not(:disabled) {
       transform: translateY(-2px);
       box-shadow: 0 7px 14px rgba(98, 54, 10, .18);
     }
@@ -269,24 +292,51 @@
     .color-swatch.is-active-swatch {
       border-color: #252016 !important;
       transform: scale(1.15);
-      box-shadow: 0 4px 6px rgba(0,0,0,.12);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, .12);
     }
 
-    .review-card {
-      min-height: 152px;
+    .review-detail { display: none; }
+    .review-detail.is-visible { display: block; }
+    .review-empty.is-hidden { display: none; }
+
+    .review-staff {
+      position: relative;
+      height: 128px;
+      overflow: hidden;
+      border: 1px solid #f0c575;
+      border-radius: 12px;
+      background: #fffdf4;
     }
 
-    .review-detail {
+    .review-row {
+      position: absolute;
+      inset: 0px 10px auto;
+      height: 128px;
+    }
+
+    .review-row::before {
       display: none;
     }
 
-    .review-detail.is-visible {
-      display: block;
+    .review-note {
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      border: 3px solid #d9342e;
+      border-radius: 50%;
+      z-index: 2;
+      display: none;
+      box-shadow: 0 0 0 2px rgba(217, 52, 46, .1);
     }
 
-    .review-empty.is-hidden {
-      display: none;
-    }
+    .review-note.is-selected { display: block; }
+    .review-note-do { left: 21.6%; top: 62.5px; }
+    .review-note-re { left: 31.4%; top: 57px; }
+    .review-note-mi { left: 41.2%; top: 51px; }
+    .review-note-fa { left: 51.0%; top: 45px; }
+    .review-note-sol { left: 60.6%; top: 39px; }
+    .review-note-la { left: 70.3%; top: 33px; }
+    .review-note-si { left: 80.0%; top: 27px; }
 
     button:focus-visible,
     input:focus-visible {
@@ -297,8 +347,17 @@
     @media (max-width: 640px) {
       .worksheet-shell { padding: 16px 10px 30px; }
       .paper-card::before { inset: 7px; }
-      .draw-area { min-height: 270px; }
       .seat-button { min-height: 38px; font-size: .9rem; }
+      .staff-paper { padding-left: 4px; padding-right: 4px; }
+      .staff-row::before { left: -2px; font-size: 76px; top: -10px; }
+      .note-button { width: 42px; height: 54px; }
+      .note-head { width: 15px; height: 11px; }
+      .note-stem { left: 28px; height: 30px; }
+      .note-do .note-stem,
+      .note-re .note-stem,
+      .note-mi .note-stem { left: 12px; }
+      .note-label { font-size: .68rem; }
+      .draw-area { min-height: 260px; }
     }
   </style>
  </head>
@@ -306,60 +365,64 @@
   <div class="worksheet-shell">
    <div class="page-content">
     <header data-template-id="header-panel" class="canva-header paper-card rounded-[30px] px-6 py-7 sm:px-10 sm:py-9">
-     <div class="flex items-center justify-center gap-3 text-center">
-      <span aria-hidden="true" class="text-3xl text-orange-500 animate-pulse">✨</span>
+     <div class="flex items-center justify-center gap-3 text-center"><span aria-hidden="true" class="text-3xl text-orange-500 animate-pulse">✨</span>
       <h1 data-template-id="worksheet-title" class="canva-text m-0 font-black leading-tight"></h1><span aria-hidden="true" class="text-3xl text-orange-500 animate-pulse">✨</span>
      </div>
-     <section data-template-id="student-info-panel" class="canva-panel mt-7 rounded-[22px] border-2 border-[#e6c98d] bg-[#fff7d8] p-4 sm:p-5" aria-labelledby="student-info-heading">
-      <h2 id="student-info-heading" data-template-id="student-info-heading-text" class="canva-text mb-4 font-black"></h2>
-      <div class="grid gap-4 lg:grid-cols-[.9fr_1.7fr]">
-       <div class="student-field">
-        <label data-template-id="class-name-label" class="canva-text block font-black text-[#6b421b]" for="className"></label> <input id="className" type="text" autocomplete="off">
+     <section data-template-id="student-info-panel" class="canva-panel mt-7 rounded-[22px] border-2 border-[#e6c98d] bg-[#fff7d8] p-4 sm:p-5">
+      <div class="grid gap-4 md:grid-cols-[1fr_2fr]">
+       <div class="student-field"><label data-template-id="class-name-label" class="canva-text block font-black text-[#6b421b]" for="className"></label> <input id="className" type="text" autocomplete="off">
        </div>
        <div class="student-field">
         <p data-template-id="seat-number-label" class="canva-text mb-2 font-black text-[#6b421b]"></p>
-        <div id="studentSeatGrid" class="seat-grid" role="radiogroup" aria-label="選擇座號">
-         <button type="button" class="seat-button" data-seat="1" role="radio" aria-checked="false">1</button> <button type="button" class="seat-button" data-seat="2" role="radio" aria-checked="false">2</button> <button type="button" class="seat-button" data-seat="3" role="radio" aria-checked="false">3</button> <button type="button" class="seat-button" data-seat="4" role="radio" aria-checked="false">4</button> <button type="button" class="seat-button" data-seat="5" role="radio" aria-checked="false">5</button> <button type="button" class="seat-button" data-seat="6" role="radio" aria-checked="false">6</button> <button type="button" class="seat-button" data-seat="7" role="radio" aria-checked="false">7</button> <button type="button" class="seat-button" data-seat="8" role="radio" aria-checked="false">8</button> <button type="button" class="seat-button" data-seat="9" role="radio" aria-checked="false">9</button> <button type="button" class="seat-button" data-seat="10" role="radio" aria-checked="false">10</button> <button type="button" class="seat-button" data-seat="11" role="radio" aria-checked="false">11</button> <button type="button" class="seat-button" data-seat="12" role="radio" aria-checked="false">12</button> <button type="button" class="seat-button" data-seat="13" role="radio" aria-checked="false">13</button> <button type="button" class="seat-button" data-seat="14" role="radio" aria-checked="false">14</button> <button type="button" class="seat-button" data-seat="15" role="radio" aria-checked="false">15</button> <button type="button" class="seat-button" data-seat="16" role="radio" aria-checked="false">16</button> <button type="button" class="seat-button" data-seat="17" role="radio" aria-checked="false">17</button> <button type="button" class="seat-button" data-seat="18" role="radio" aria-checked="false">18</button> <button type="button" class="seat-button" data-seat="19" role="radio" aria-checked="false">19</button> <button type="button" class="seat-button" data-seat="20" role="radio" aria-checked="false">20</button> <button type="button" class="seat-button" data-seat="21" role="radio" aria-checked="false">21</button> <button type="button" class="seat-button" data-seat="22" role="radio" aria-checked="false">22</button> <button type="button" class="seat-button" data-seat="23" role="radio" aria-checked="false">23</button> <button type="button" class="seat-button" data-seat="24" role="radio" aria-checked="false">24</button> <button type="button" class="seat-button" data-seat="25" role="radio" aria-checked="false">25</button>
-        </div>
+        <div id="studentSeatGrid" class="seat-grid" role="radiogroup" aria-label="選擇座號"></div>
        </div>
       </div>
      </section>
     </header>
     <main class="mt-7 space-y-7">
      <section data-template-id="reference-panel" class="canva-panel paper-card rounded-[30px] p-5 sm:p-7" aria-labelledby="reference-heading">
-      <div class="mb-4 flex flex-wrap items-center justify-between gap-3">
-       <h2 id="reference-heading" data-template-id="reference-heading-text" class="canva-text font-black"></h2><span data-template-id="reference-tip" class="canva-tag rounded-full px-3 py-1 font-bold"></span>
+      <div class="mb-4">
+       <h2 id="reference-heading" data-template-id="reference-heading-text" class="canva-text font-black"></h2>
+       <p data-template-id="reference-help" class="canva-text mt-2 font-medium"></p>
       </div>
-      <div class="music-stage">
-       <img data-template-id="reference-image" loading="lazy" class="canva-image"> <!-- Precise note targets mapping the 3rd staff row (Do, Re, Mi, Fa, Sol, La, Si) --> <button type="button" class="note-target" data-note="Do" aria-label="圈選 Do" style="left:21.8%; top:73.5%;"></button> <button type="button" class="note-target" data-note="Re" aria-label="圈選 Re" style="left:31.2%; top:71.0%;"></button> <button type="button" class="note-target" data-note="Mi" aria-label="圈選 Mi" style="left:40.5%; top:68.0%;"></button> <button type="button" class="note-target" data-note="Fa" aria-label="圈選 Fa" style="left:50.0%; top:65.5%;"></button> <button type="button" class="note-target" data-note="Sol" aria-label="圈選 Sol" style="left:59.2%; top:62.5%;"></button> <button type="button" class="note-target" data-note="La" aria-label="圈選 La" style="left:68.5%; top:59.5%;"></button> <button type="button" class="note-target" data-note="Si" aria-label="圈選 Si" style="left:77.8%; top:56.5%;"></button>
+      <div class="staff-stage">
+       <div class="staff-paper">
+        <img data-template-id="sheet-music-image" class="staff-image" loading="lazy">
+        <div class="staff-row" aria-label="可點選的第三行五線譜">
+         <button type="button" class="note-button note-do" data-note="Do" aria-pressed="false" aria-label="Do"></button> <button type="button" class="note-button note-re" data-note="Re" aria-pressed="false" aria-label="Re"></button> <button type="button" class="note-button note-mi" data-note="Mi" aria-pressed="false" aria-label="Mi"></button> <button type="button" class="note-button note-fa" data-note="Fa" aria-pressed="false" aria-label="Fa"></button> <button type="button" class="note-button note-sol" data-note="Sol" aria-pressed="false" aria-label="Sol"></button> <button type="button" class="note-button note-la" data-note="La" aria-pressed="false" aria-label="La"></button> <button type="button" class="note-button note-si" data-note="Si" aria-pressed="false" aria-label="Si"></button>
+        </div>
+       </div>
       </div>
+      <section data-template-id="selection-panel" class="canva-panel mt-5 rounded-2xl border-2 border-dashed border-[#dea247] bg-[#fff5d2] p-4" aria-labelledby="selection-heading">
+       <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+         <h3 id="selection-heading" data-template-id="selection-heading-text" class="canva-text font-black"></h3>
+         <p id="selectedNotesText" class="mt-1 font-bold text-[#7a5127]" aria-live="polite">—</p>
+        </div><button id="clearNotesButton" data-template-id="clear-notes-button" class="canva-button tool-button bg-[#5d4630] text-white" type="button"> <i data-lucide="rotate-ccw" class="h-5 w-5" aria-hidden="true"></i> </button>
+       </div>
+       <div id="selectedNotesChips" class="mt-3 flex flex-wrap gap-2" aria-live="polite"></div>
+      </section>
      </section>
      <section data-template-id="drawing-panel" class="canva-section paper-card rounded-[30px] p-5 sm:p-7" aria-labelledby="drawing-heading">
       <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-       <div>
-        <h2 id="drawing-heading" data-template-id="drawing-heading-text" class="canva-text m-0 font-black"></h2>
-       </div>
+       <h2 id="drawing-heading" data-template-id="drawing-heading-text" class="canva-text m-0 font-black"></h2>
        <div class="flex flex-wrap items-center gap-4">
-        <div class="flex items-center gap-1.5 rounded-2xl border border-[#e6c98d] bg-[#fff0bf] p-1.5" role="radiogroup" aria-label="畫筆顏色">
-         <button type="button" class="color-swatch h-8 w-8 rounded-full border-2 border-transparent transition-all hover:scale-110" style="background-color:#d54d43" data-color="#d54d43" aria-label="紅色" aria-checked="true"></button> <button type="button" class="color-swatch h-8 w-8 rounded-full border-2 border-transparent transition-all hover:scale-110" style="background-color:#e5681b" data-color="#e5681b" aria-label="橘色" aria-checked="false"></button> <button type="button" class="color-swatch h-8 w-8 rounded-full border-2 border-transparent transition-all hover:scale-110" style="background-color:#f5b041" data-color="#f5b041" aria-label="黃色" aria-checked="false"></button> <button type="button" class="color-swatch h-8 w-8 rounded-full border-2 border-transparent transition-all hover:scale-110" style="background-color:#3e9f62" data-color="#3e9f62" aria-label="綠色" aria-checked="false"></button> <button type="button" class="color-swatch h-8 w-8 rounded-full border-2 border-transparent transition-all hover:scale-110" style="background-color:#287fbd" data-color="#287fbd" aria-label="藍色" aria-checked="false"></button> <button type="button" class="color-swatch h-8 w-8 rounded-full border-2 border-transparent transition-all hover:scale-110" style="background-color:#7956a3" data-color="#7956a3" aria-label="紫色" aria-checked="false"></button>
+        <div class="flex items-center gap-1.5 rounded-2xl border border-[#e6c98d] bg-[#fff0bf] p-1.5" role="radiogroup" aria-label="畫筆顏色"><button type="button" class="color-swatch h-8 w-8 rounded-full border-2 border-transparent" style="background-color:#d54d43" data-color="#d54d43" aria-label="紅色" aria-checked="true"></button> <button type="button" class="color-swatch h-8 w-8 rounded-full border-2 border-transparent" style="background-color:#e5681b" data-color="#e5681b" aria-label="橘色" aria-checked="false"></button> <button type="button" class="color-swatch h-8 w-8 rounded-full border-2 border-transparent" style="background-color:#f5b041" data-color="#f5b041" aria-label="黃色" aria-checked="false"></button> <button type="button" class="color-swatch h-8 w-8 rounded-full border-2 border-transparent" style="background-color:#3e9f62" data-color="#3e9f62" aria-label="綠色" aria-checked="false"></button> <button type="button" class="color-swatch h-8 w-8 rounded-full border-2 border-transparent" style="background-color:#287fbd" data-color="#287fbd" aria-label="藍色" aria-checked="false"></button>
         </div>
-        <div class="flex flex-wrap gap-2" role="toolbar" aria-label="繪圖工具">
-         <button id="penButton" data-template-id="pen-button" class="canva-button tool-button bg-[#e5681b] text-white" type="button" aria-pressed="true"> <i data-lucide="pencil" class="h-5 w-5" aria-hidden="true"></i><span></span> </button> <button id="eraserButton" data-template-id="eraser-button" class="canva-button tool-button bg-[#e7dfcc] text-[#3e321e]" type="button" aria-pressed="false"> <i data-lucide="eraser" class="h-5 w-5" aria-hidden="true"></i><span></span> </button> <button id="clearButton" data-template-id="clear-button" class="canva-button tool-button bg-[#5d4630] text-white" type="button"> <i data-lucide="rotate-ccw" class="h-5 w-5" aria-hidden="true"></i><span></span> </button>
+        <div class="flex flex-wrap gap-2" role="toolbar" aria-label="繪圖工具"><button id="penButton" data-template-id="pen-button" class="canva-button tool-button bg-[#e5681b] text-white" type="button" aria-pressed="true"> <i data-lucide="pencil" class="h-5 w-5" aria-hidden="true"></i> </button> <button id="eraserButton" data-template-id="eraser-button" class="canva-button tool-button bg-[#e7dfcc] text-[#3e321e]" type="button" aria-pressed="false"> <i data-lucide="eraser" class="h-5 w-5" aria-hidden="true"></i> </button> <button id="clearButton" data-template-id="clear-button" class="canva-button tool-button bg-[#5d4630] text-white" type="button"> <i data-lucide="rotate-ccw" class="h-5 w-5" aria-hidden="true"></i> </button>
         </div>
        </div>
       </div>
       <div id="drawArea" class="draw-area mt-5" aria-label="自由畫圖區">
-       <p id="canvasMessage" class="canvas-message">可在這裡畫圈、寫下觀察，或練習畫音符！</p>
        <canvas id="drawingCanvas" aria-label="可自由畫圖的畫布"></canvas>
       </div>
      </section>
      <section data-template-id="submit-panel" class="canva-panel paper-card rounded-[30px] p-5 text-center sm:p-7" aria-labelledby="submit-heading">
       <div class="mx-auto max-w-2xl">
-       <div class="mb-3 flex justify-center text-[#d56b1d]">
-        <i data-lucide="send" class="h-8 w-8" aria-hidden="true"></i>
+       <div class="mb-3 flex justify-center text-[#d56b1d]"><i data-lucide="send" class="h-8 w-8" aria-hidden="true"></i>
        </div>
        <h2 id="submit-heading" data-template-id="submit-heading-text" class="canva-text m-0 font-black"></h2>
-       <p data-template-id="submit-help" class="canva-text mt-2 mb-5 font-medium"></p><button id="submitButton" data-template-id="submit-button" class="canva-button tool-button bg-[#3e9f62] text-white" type="button"> <i data-lucide="check-circle-2" class="h-5 w-5" aria-hidden="true"></i><span></span> </button>
+       <p data-template-id="submit-help" class="canva-text mb-5 mt-2 font-medium"></p><button id="submitButton" data-template-id="submit-button" class="canva-button tool-button bg-[#3e9f62] text-white" type="button"> <i data-lucide="check-circle-2" class="h-5 w-5" aria-hidden="true"></i> </button>
        <p id="submitStatus" class="mt-4 min-h-6 font-bold text-[#7a5127]" aria-live="polite"></p>
       </div>
      </section>
@@ -368,12 +431,10 @@
        <div>
         <h2 id="teacher-heading" data-template-id="teacher-heading-text" class="canva-text m-0 font-black"></h2>
         <p data-template-id="teacher-help" class="canva-text mt-2"></p>
-       </div><span id="submissionCount" class="rounded-full bg-[#fbe3a3] px-3 py-1 font-black text-[#87501b]" aria-live="polite">0</span>
+       </div><span id="submissionCount" class="rounded-full bg-[#fbe3a3] px-3 py-1 font-black text-[#87501b]" aria-live="polite">0 / 25</span>
       </div>
-      <div id="teacherSeatGrid" class="seat-grid mt-5" aria-label="老師座號檢視">
-       <button type="button" class="seat-button" data-review-seat="1">1</button> <button type="button" class="seat-button" data-review-seat="2">2</button> <button type="button" class="seat-button" data-review-seat="3">3</button> <button type="button" class="seat-button" data-review-seat="4">4</button> <button type="button" class="seat-button" data-review-seat="5">5</button> <button type="button" class="seat-button" data-review-seat="6">6</button> <button type="button" class="seat-button" data-review-seat="7">7</button> <button type="button" class="seat-button" data-review-seat="8">8</button> <button type="button" class="seat-button" data-review-seat="9">9</button> <button type="button" class="seat-button" data-review-seat="10">10</button> <button type="button" class="seat-button" data-review-seat="11">11</button> <button type="button" class="seat-button" data-review-seat="12">12</button> <button type="button" class="seat-button" data-review-seat="13">13</button> <button type="button" class="seat-button" data-review-seat="14">14</button> <button type="button" class="seat-button" data-review-seat="15">15</button> <button type="button" class="seat-button" data-review-seat="16">16</button> <button type="button" class="seat-button" data-review-seat="17">17</button> <button type="button" class="seat-button" data-review-seat="18">18</button> <button type="button" class="seat-button" data-review-seat="19">19</button> <button type="button" class="seat-button" data-review-seat="20">20</button> <button type="button" class="seat-button" data-review-seat="21">21</button> <button type="button" class="seat-button" data-review-seat="22">22</button> <button type="button" class="seat-button" data-review-seat="23">23</button> <button type="button" class="seat-button" data-review-seat="24">24</button> <button type="button" class="seat-button" data-review-seat="25">25</button>
-      </div>
-      <div class="review-card mt-6 rounded-[20px] border-2 border-dashed border-[#d69a42] bg-[#fff8df] p-5">
+      <div id="teacherSeatGrid" class="seat-grid mt-5" aria-label="老師座號檢視"></div>
+      <div class="mt-6 min-h-[152px] rounded-[20px] border-2 border-dashed border-[#d69a42] bg-[#fff8df] p-5">
        <div id="reviewEmpty" class="review-empty">
         <p data-template-id="teacher-empty-text" class="canva-text m-0 text-center font-bold"></p>
        </div>
@@ -390,15 +451,22 @@
           <dt data-template-id="review-seat-label" class="canva-text font-black text-[#87501b]"></dt>
           <dd id="reviewSeat" class="mt-1 font-bold"></dd>
          </div>
-         <div class="rounded-xl bg-white/70 p-3">
-          <dt data-template-id="review-notes-label" class="canva-text font-black text-[#87501b]"></dt>
-          <dd id="reviewNotes" class="mt-1 font-bold"></dd>
-         </div>
-         <div class="rounded-xl bg-white/70 p-3">
-          <dt data-template-id="review-drawing-label" class="canva-text font-black text-[#87501b]"></dt>
-          <dd id="reviewDrawing" class="mt-1 font-bold"></dd><!-- Live mini-canvas preview to let teacher actually see the student's stroke work -->
-          <div id="reviewCanvasContainer" class="mt-2 hidden border border-amber-200 rounded-lg overflow-hidden bg-white/90">
-           <canvas id="reviewCanvas" class="w-full h-24 object-contain"></canvas>
+         <div class="rounded-xl bg-white/70 p-3 sm:col-span-2">
+          <div class="grid gap-4 sm:grid-cols-2">
+           <!-- 左邊: Selected Notes -->
+           <div>
+            <dt data-template-id="review-notes-label" class="canva-text font-black text-[#87501b] mb-2">
+             Selected Notes
+            </dt>
+            <div id="reviewNotes" class="flex flex-col gap-2"><span class="text-gray-500 font-bold">—</span>
+            </div>
+           </div><!-- 右邊: Notes / Drawing -->
+           <div>
+            <dt data-template-id="review-drawing-label" class="canva-text font-black text-[#87501b] mb-2"></dt>
+            <div class="h-32 overflow-hidden rounded-lg border border-amber-200 bg-white/90">
+             <canvas id="reviewCanvas" class="h-full w-full" aria-label="學生繪圖預覽"></canvas>
+            </div>
+           </div>
           </div>
          </div>
         </dl>
@@ -409,78 +477,218 @@
     </main>
    </div>
   </div>
+  <script src="/_sdk/47669dc8496955be.editing_sdk.js" integrity="sha512-SXgqvNdy3CX4R90Kr2d0cSNYZOv6KbcxTq/tprZCtYPHhvtgc5Aagp95xl8W/LNBFpixAlLGqjQW133qbh1QAg=="></script>
   <script>
     document.addEventListener("DOMContentLoaded", async () => {
       lucide.createIcons();
 
-      const canvas = document.getElementById("drawingCanvas");
-      const drawArea = document.getElementById("drawArea");
-      const context = canvas.getContext("2d");
-      const message = document.getElementById("canvasMessage");
+      const noteOrder = ["Do", "Re", "Mi", "Fa", "Sol", "La", "Si"];
+      const notePositionsDesc = {
+        "Do": "Do (C) 下加一線（ledger line below the staff）",
+        "Re": "Re (D) 下加一間（space below the staff）",
+        "Mi": "Mi (E) 第一線（first line of the staff）",
+        "Fa": "Fa (F) 第一間（first space）",
+        "Sol": "Sol (G) 第二線（second line）",
+        "La": "La (A) 第二間（second space）",
+        "Si": "Si (B) 第三線（third line）"
+      };
+      const seatNumbers = Array.from({ length: 25 }, (_, index) => String(index + 1));
+      const studentSeatGrid = document.getElementById("studentSeatGrid");
+      const teacherSeatGrid = document.getElementById("teacherSeatGrid");
       const classNameInput = document.getElementById("className");
+      const selectedNotesText = document.getElementById("selectedNotesText");
+      const selectedNotesChips = document.getElementById("selectedNotesChips");
+      const clearNotesButton = document.getElementById("clearNotesButton");
       const submitButton = document.getElementById("submitButton");
       const submitStatus = document.getElementById("submitStatus");
-      const penButton = document.getElementById("penButton");
-      const eraserButton = document.getElementById("eraserButton");
-      const clearButton = document.getElementById("clearButton");
       const submissionCount = document.getElementById("submissionCount");
       const reviewEmpty = document.getElementById("reviewEmpty");
       const reviewDetail = document.getElementById("reviewDetail");
       const closeReviewButton = document.getElementById("closeReviewButton");
 
+      const canvas = document.getElementById("drawingCanvas");
+      const drawArea = document.getElementById("drawArea");
+      const context = canvas.getContext("2d");
+      const penButton = document.getElementById("penButton");
+      const eraserButton = document.getElementById("eraserButton");
+      const clearButton = document.getElementById("clearButton");
+
       let selectedSeat = "";
       let selectedReviewSeat = "";
+      let selectedNotes = new Set();
+      let records = [];
+      let sdkReady = false;
       let drawing = false;
-      let hasDrawing = false;
       let tool = "pen";
       let brushColor = "#d54d43";
       let lastPoint = { x: 0, y: 0 };
-      let strokes = []; // Array of lines: each line is { tool, color, width, points: [{x, y}] }
+      let strokes = [];
       let currentStroke = null;
-      let sdkReady = false;
-      let records = [];
-      const selectedNotes = new Set();
 
-      function resizeCanvas() {
-        const previous = document.createElement("canvas");
-        previous.width = canvas.width;
-        previous.height = canvas.height;
+      studentSeatGrid.innerHTML = seatNumbers.map((seat) =>
+        '<button type="button" class="seat-button" data-seat="' + seat + '" role="radio" aria-checked="false">' + seat + '</button>'
+      ).join("");
 
-        if (canvas.width && canvas.height) {
-          previous.getContext("2d").drawImage(canvas, 0, 0);
-        }
+      teacherSeatGrid.innerHTML = seatNumbers.map((seat) =>
+        '<button type="button" class="seat-button" data-review-seat="' + seat + '">' + seat + '</button>'
+      ).join("");
 
-        const rect = drawArea.getBoundingClientRect();
-        const ratio = window.devicePixelRatio || 1;
-        canvas.width = Math.max(1, Math.floor(rect.width * ratio));
-        canvas.height = Math.max(1, Math.floor(rect.height * ratio));
-        canvas.style.width = rect.width + "px";
-        canvas.style.height = rect.height + "px";
-
-        context.setTransform(ratio, 0, 0, ratio, 0, 0);
-        context.lineCap = "round";
-        context.lineJoin = "round";
-
-        // Redraw all saved strokes to accommodate exact scaling on resize
-        redrawCanvas();
+      function noteClassName(note) {
+        return note.toLowerCase();
       }
 
-      function redrawCanvas() {
-        context.clearRect(0, 0, canvas.width / (window.devicePixelRatio || 1), canvas.height / (window.devicePixelRatio || 1));
-        strokes.forEach(stroke => {
-          if (!stroke.points || stroke.points.length === 0) return;
-          context.save();
-          context.globalCompositeOperation = stroke.tool === "eraser" ? "destination-out" : "source-over";
-          context.strokeStyle = stroke.tool === "eraser" ? "rgba(0,0,0,1)" : stroke.color;
-          context.lineWidth = stroke.width;
-          context.beginPath();
-          context.moveTo(stroke.points[0].x, stroke.points[0].y);
-          for (let i = 1; i < stroke.points.length; i++) {
-            context.lineTo(stroke.points[i].x, stroke.points[i].y);
-          }
-          context.stroke();
-          context.restore();
+      function selectedNotesArray() {
+        return noteOrder.filter((note) => selectedNotes.has(note));
+      }
+
+      function renderSelectedNotes() {
+        const notes = selectedNotesArray();
+        selectedNotesText.textContent = notes.length ? notes.map(n => notePositionsDesc[n] || n).join(", ") : "—";
+        
+        // Render chips representing the unique set of active notes in musical order
+        selectedNotesChips.innerHTML = "";
+
+        document.querySelectorAll(".note-button").forEach((button) => {
+          const active = selectedNotes.has(button.dataset.note);
+          button.classList.toggle("is-selected", active);
+          button.setAttribute("aria-pressed", String(active));
         });
+      }
+
+      function setSelectedNotes(noteValues) {
+        selectedNotes = new Set(noteOrder.filter((note) => noteValues.includes(note)));
+        renderSelectedNotes();
+      }
+
+      function parseSelectedNotes(record) {
+        if (!record) return [];
+        if (typeof record.selected_notes === "string") {
+          return record.selected_notes.split(",").map((item) => item.trim()).filter((item) => noteOrder.includes(item));
+        }
+
+        if (typeof record.staff_strokes === "string") {
+          try {
+            const parsed = JSON.parse(record.staff_strokes);
+            return Array.isArray(parsed) ? parsed.filter((item) => noteOrder.includes(item)) : [];
+          } catch (_) {
+            return [];
+          }
+        }
+        return [];
+      }
+
+      document.querySelectorAll(".note-button").forEach((button) => {
+        button.addEventListener("click", () => {
+          const note = button.dataset.note;
+          if (selectedNotes.has(note)) {
+            selectedNotes.delete(note);
+          } else {
+            selectedNotes.add(note);
+          }
+          renderSelectedNotes();
+        });
+      });
+
+      clearNotesButton.addEventListener("click", () => {
+        selectedNotes.clear();
+        renderSelectedNotes();
+      });
+
+      function selectStudentSeat(seat) {
+        selectedSeat = seat;
+        document.querySelectorAll("#studentSeatGrid .seat-button").forEach((button) => {
+          const active = button.dataset.seat === seat;
+          button.classList.toggle("is-selected", active);
+          button.setAttribute("aria-checked", String(active));
+        });
+      }
+
+      document.querySelectorAll("#studentSeatGrid .seat-button").forEach((button) => {
+        button.addEventListener("click", () => selectStudentSeat(button.dataset.seat));
+      });
+
+      function latestRecordsBySeat() {
+        const latest = new Map();
+        [...records]
+          .sort((a, b) => new Date(a.submitted_at || 0).getTime() - new Date(b.submitted_at || 0).getTime())
+          .forEach((record) => {
+            if (record.seat_number) latest.set(String(record.seat_number).trim(), record);
+          });
+        return latest;
+      }
+
+      function recordForReviewSeat(seat) {
+        return latestRecordsBySeat().get(String(seat).trim()) || null;
+      }
+
+      function updateTeacherGrid() {
+        const latest = latestRecordsBySeat();
+
+        document.querySelectorAll("#teacherSeatGrid .seat-button").forEach((button) => {
+          const seat = button.dataset.reviewSeat;
+          const submitted = latest.has(String(seat));
+          const selected = String(selectedReviewSeat) === String(seat);
+
+          button.classList.toggle("is-submitted", submitted);
+          button.classList.toggle("is-selected", selected);
+          button.setAttribute("aria-label", submitted
+            ? "座號 " + seat + "，已繳交，點選查看"
+            : "座號 " + seat + "，尚未繳交"
+          );
+        });
+
+        submissionCount.textContent = latest.size + " / 25";
+      }
+
+      function prepareContext(ctx, ratio) {
+        ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+        ctx.lineCap = "round";
+        ctx.lineJoin = "round";
+      }
+
+      function getCanvasPoint(event, targetCanvas) {
+        const rect = targetCanvas.getBoundingClientRect();
+        return {
+          x: event.clientX - rect.left,
+          y: event.clientY - rect.top
+        };
+      }
+
+      function drawStroke(ctx, stroke) {
+        if (!stroke.points || !stroke.points.length) return;
+
+        ctx.save();
+        ctx.globalCompositeOperation = stroke.tool === "eraser" ? "destination-out" : "source-over";
+        ctx.strokeStyle = stroke.tool === "eraser" ? "rgba(0,0,0,1)" : stroke.color;
+        ctx.lineWidth = stroke.width || 5;
+        ctx.beginPath();
+        ctx.moveTo(stroke.points[0].x, stroke.points[0].y);
+
+        if (stroke.points.length === 1) {
+          ctx.lineTo(stroke.points[0].x + 0.01, stroke.points[0].y + 0.01);
+        } else {
+          stroke.points.slice(1).forEach((point) => ctx.lineTo(point.x, point.y));
+        }
+
+        ctx.stroke();
+        ctx.restore();
+      }
+
+      function redrawPracticeCanvas() {
+        const ratio = window.devicePixelRatio || 1;
+        context.clearRect(0, 0, canvas.width / ratio, canvas.height / ratio);
+        strokes.forEach((stroke) => drawStroke(context, stroke));
+      }
+
+      function resizeCanvas() {
+        const ratio = window.devicePixelRatio || 1;
+        const drawRect = drawArea.getBoundingClientRect();
+        canvas.width = Math.max(1, Math.floor(drawRect.width * ratio));
+        canvas.height = Math.max(1, Math.floor(drawRect.height * ratio));
+        canvas.style.width = drawRect.width + "px";
+        canvas.style.height = drawRect.height + "px";
+        prepareContext(context, ratio);
+        redrawPracticeCanvas();
       }
 
       function setTool(nextTool) {
@@ -493,94 +701,113 @@
         canvas.style.cursor = isPen ? "crosshair" : "cell";
       }
 
-      function getPoint(event) {
-        const rect = canvas.getBoundingClientRect();
-        return { x: event.clientX - rect.left, y: event.clientY - rect.top };
-      }
-
-      function startDrawing(event) {
+      function beginStroke(event) {
         event.preventDefault();
-        drawing = true;
-        const pt = getPoint(event);
-        lastPoint = pt;
-        canvas.setPointerCapture(event.pointerId);
-        message.classList.add("is-hidden");
+        const point = getCanvasPoint(event, canvas);
 
-        const brushWidth = tool === "eraser" ? 22 : 5;
-        currentStroke = {
+        try {
+          canvas.setPointerCapture(event.pointerId);
+        } catch (_) {}
+
+        const stroke = {
           tool: tool,
           color: brushColor,
-          width: brushWidth,
-          points: [pt]
+          width: tool === "eraser" ? 22 : 5,
+          points: [point]
         };
-        strokes.push(currentStroke);
+
+        drawing = true;
+        lastPoint = point;
+        currentStroke = stroke;
+        strokes.push(stroke);
+
+        context.save();
+        context.globalCompositeOperation = tool === "eraser" ? "destination-out" : "source-over";
+        context.fillStyle = tool === "eraser" ? "rgba(0,0,0,1)" : brushColor;
+        context.beginPath();
+        context.arc(point.x, point.y, Math.max(1, stroke.width / 2), 0, Math.PI * 2);
+        context.fill();
+        context.restore();
       }
 
-      function draw(event) {
+      function continueStroke(event) {
         if (!drawing || !currentStroke) return;
         event.preventDefault();
 
-        const point = getPoint(event);
+        const point = getCanvasPoint(event, canvas);
+
         context.save();
-        context.globalCompositeOperation = tool === "eraser" ? "destination-out" : "source-over";
-        context.strokeStyle = tool === "eraser" ? "rgba(0,0,0,1)" : brushColor;
-        context.lineWidth = tool === "eraser" ? 22 : 5;
+        context.globalCompositeOperation = currentStroke.tool === "eraser" ? "destination-out" : "source-over";
+        context.strokeStyle = currentStroke.tool === "eraser" ? "rgba(0,0,0,1)" : currentStroke.color;
+        context.lineWidth = currentStroke.width;
         context.beginPath();
         context.moveTo(lastPoint.x, lastPoint.y);
         context.lineTo(point.x, point.y);
         context.stroke();
         context.restore();
 
-        lastPoint = point;
         currentStroke.points.push(point);
-        hasDrawing = true;
+        lastPoint = point;
       }
 
-      function stopDrawing(event) {
+      function endStroke(event) {
         if (!drawing) return;
         drawing = false;
-        if (event && event.pointerId !== undefined && canvas.hasPointerCapture(event.pointerId)) {
-          canvas.releasePointerCapture(event.pointerId);
-        }
         currentStroke = null;
+
+        if (event && event.pointerId !== undefined) {
+          try {
+            if (canvas.hasPointerCapture(event.pointerId)) canvas.releasePointerCapture(event.pointerId);
+          } catch (_) {}
+        }
       }
 
-      function selectStudentSeat(seat) {
-        selectedSeat = seat;
-        document.querySelectorAll("#studentSeatGrid .seat-button").forEach(button => {
-          const active = button.dataset.seat === seat;
-          button.classList.toggle("is-selected", active);
-          button.setAttribute("aria-checked", String(active));
+      function renderReviewCanvas(strokeData) {
+        const reviewCanvas = document.getElementById("reviewCanvas");
+        const ctx = reviewCanvas.getContext("2d");
+        const ratio = window.devicePixelRatio || 1;
+        const rect = reviewCanvas.getBoundingClientRect();
+        const width = Math.max(1, rect.width || 200);
+        const height = Math.max(1, rect.height || 120);
+
+        reviewCanvas.width = Math.floor(width * ratio);
+        reviewCanvas.height = Math.floor(height * ratio);
+        prepareContext(ctx, ratio);
+        ctx.clearRect(0, 0, width, height);
+
+        if (!strokeData.length) return;
+
+        let maxX = 1;
+        let maxY = 1;
+        strokeData.forEach((stroke) => {
+          (stroke.points || []).forEach((point) => {
+            maxX = Math.max(maxX, point.x);
+            maxY = Math.max(maxY, point.y);
+          });
         });
-      }
 
-      function latestRecordsBySeat() {
-        const map = new Map();
-        records.forEach(record => {
-          const key = record.class_name + "|" + record.seat_number;
-          const current = map.get(key);
-          if (!current || new Date(record.submitted_at) > new Date(current.submitted_at)) {
-            map.set(key, record);
+        const scale = Math.min((width - 10) / maxX, (height - 10) / maxY, 1.35);
+
+        strokeData.forEach((stroke) => {
+          if (!stroke.points || !stroke.points.length) return;
+          ctx.save();
+          ctx.globalCompositeOperation = stroke.tool === "eraser" ? "destination-out" : "source-over";
+          ctx.strokeStyle = stroke.tool === "eraser" ? "rgba(0,0,0,1)" : (stroke.color || "#d54d43");
+          ctx.lineWidth = Math.max(2, (stroke.width || 5) * scale);
+          ctx.beginPath();
+          ctx.moveTo(5 + stroke.points[0].x * scale, 5 + stroke.points[0].y * scale);
+
+          if (stroke.points.length === 1) {
+            ctx.lineTo(5 + (stroke.points[0].x + .01) * scale, 5 + (stroke.points[0].y + .01) * scale);
+          } else {
+            stroke.points.slice(1).forEach((point) => {
+              ctx.lineTo(5 + point.x * scale, 5 + point.y * scale);
+            });
           }
+
+          ctx.stroke();
+          ctx.restore();
         });
-        return Array.from(map.values());
-      }
-
-      function recordForReviewSeat(seat) {
-        const matching = records.filter(record => String(record.seat_number) === String(seat));
-        return matching.sort((a, b) => new Date(b.submitted_at) - new Date(a.submitted_at))[0];
-      }
-
-      function updateTeacherGrid() {
-        const submittedSeats = new Set(records.map(record => String(record.seat_number)));
-        document.querySelectorAll("#teacherSeatGrid .seat-button").forEach(button => {
-          const seat = button.dataset.reviewSeat;
-          button.classList.toggle("is-submitted", submittedSeats.has(seat));
-          button.classList.toggle("is-selected", selectedReviewSeat === seat);
-          button.setAttribute("aria-label", submittedSeats.has(seat) ? "座號 " + seat + "，已有繳交，點選查看" : "座號 " + seat + "，尚未繳交");
-        });
-
-        submissionCount.textContent = latestRecordsBySeat().length + " / 25";
       }
 
       function showReview(record, seat) {
@@ -593,111 +820,42 @@
           return;
         }
 
+        const notes = parseSelectedNotes(record);
         document.getElementById("reviewClass").textContent = record.class_name || "—";
         document.getElementById("reviewSeat").textContent = record.seat_number || "—";
-        document.getElementById("reviewNotes").textContent = record.selected_notes || "尚未圈選音符";
-        document.getElementById("reviewDrawing").textContent = record.drawing_data || "未使用繪圖區";
-
-        // Render live stroke visualization if records are stored
-        const rContainer = document.getElementById("reviewCanvasContainer");
-        const rCanvas = document.getElementById("reviewCanvas");
-        if (record.drawing_strokes && record.drawing_strokes !== "[]") {
-          rContainer.classList.remove("hidden");
-          try {
-            const parsedStrokes = JSON.parse(record.drawing_strokes);
-            const rCtx = rCanvas.getContext("2d");
-            
-            // Set scale size
-            const ratio = window.devicePixelRatio || 1;
-            rCanvas.width = 400 * ratio;
-            rCanvas.height = 150 * ratio;
-            rCanvas.style.width = "100%";
-            rCanvas.style.height = "120px";
-            rCtx.setTransform(ratio, 0, 0, ratio, 0, 0);
-            rCtx.lineCap = "round";
-            rCtx.lineJoin = "round";
-            rCtx.clearRect(0, 0, 400, 150);
-
-            // Determine boundaries to auto-center the student's work
-            let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
-            parsedStrokes.forEach(s => {
-              (s.points || []).forEach(p => {
-                if (s.tool !== "eraser") {
-                  if (p.x < minX) minX = p.x;
-                  if (p.x > maxX) maxX = p.x;
-                  if (p.y < minY) minY = p.y;
-                  if (p.y > maxY) maxY = p.y;
-                }
-              });
-            });
-
-            const hasActiveStrokes = minX !== Infinity;
-            const sourceW = hasActiveStrokes ? Math.max(50, (maxX - minX)) : canvas.width / ratio;
-            const sourceH = hasActiveStrokes ? Math.max(50, (maxY - minY)) : canvas.height / ratio;
-            const offsetX = hasActiveStrokes ? minX - 15 : 0;
-            const offsetY = hasActiveStrokes ? minY - 15 : 0;
-            
-            // Calculate scale to fit gracefully inside mini preview bounds
-            const scale = Math.min(370 / (sourceW + 30), 120 / (sourceH + 30));
-
-            parsedStrokes.forEach(stroke => {
-              if (!stroke.points || stroke.points.length === 0) return;
-              rCtx.save();
-              rCtx.globalCompositeOperation = stroke.tool === "eraser" ? "destination-out" : "source-over";
-              rCtx.strokeStyle = stroke.tool === "eraser" ? "rgba(0,0,0,1)" : stroke.color;
-              rCtx.lineWidth = Math.max(2, stroke.width * scale);
-              rCtx.beginPath();
-              
-              const startX = (stroke.points[0].x - offsetX) * scale + 15;
-              const startY = (stroke.points[0].y - offsetY) * scale + 15;
-              rCtx.moveTo(startX, startY);
-              
-              for (let i = 1; i < stroke.points.length; i++) {
-                const nextX = (stroke.points[i].x - offsetX) * scale + 15;
-                const nextY = (stroke.points[i].y - offsetY) * scale + 15;
-                rCtx.lineTo(nextX, nextY);
-              }
-              rCtx.stroke();
-              rCtx.restore();
-            });
-          } catch(e) {
-            console.error("Error drawing student strokes:", e);
-            rContainer.classList.add("hidden");
-          }
+        
+        const reviewNotesContainer = document.getElementById("reviewNotes");
+        if (notes.length) {
+          // Show only note names (Do, Re, Mi...) instead of descriptions in the teacher dashboard
+          reviewNotesContainer.innerHTML = notes.map(note => 
+            `<span class="block px-3 py-1.5 bg-amber-100 text-amber-900 border border-amber-300 font-bold rounded-xl text-xs truncate max-w-full text-left" title="${note}">${note}</span>`
+          ).join("");
         } else {
-          rContainer.classList.add("hidden");
+          reviewNotesContainer.innerHTML = `<span class="text-gray-500 font-bold">—</span>`;
         }
 
-        const time = record.submitted_at ? new Date(record.submitted_at) : null;
-        document.getElementById("reviewTime").textContent = time && !Number.isNaN(time.getTime())
-          ? "送出時間：" + time.toLocaleString("zh-TW")
-          : "";
+        let parsedStrokes = [];
+        try {
+          parsedStrokes = record.drawing_strokes ? JSON.parse(record.drawing_strokes) : [];
+        } catch (_) {
+          parsedStrokes = [];
+        }
+
+        renderReviewCanvas(parsedStrokes);
+
+        const submittedAt = record.submitted_at ? new Date(record.submitted_at) : null;
+        document.getElementById("reviewTime").textContent =
+          submittedAt && !Number.isNaN(submittedAt.getTime())
+            ? "Submitted at: " + submittedAt.toLocaleString()
+            : "";
 
         reviewEmpty.classList.add("is-hidden");
         reviewDetail.classList.add("is-visible");
       }
 
-      document.querySelectorAll(".note-target").forEach(button => {
+      document.querySelectorAll("#teacherSeatGrid .seat-button").forEach((button) => {
         button.addEventListener("click", () => {
-          const note = button.dataset.note;
-          if (selectedNotes.has(note)) {
-            selectedNotes.delete(note);
-            document.querySelectorAll('.note-target[data-note="' + note + '"]').forEach(item => item.classList.remove("is-selected"));
-          } else {
-            selectedNotes.add(note);
-            document.querySelectorAll('.note-target[data-note="' + note + '"]').forEach(item => item.classList.add("is-selected"));
-          }
-        });
-      });
-
-      document.querySelectorAll("#studentSeatGrid .seat-button").forEach(button => {
-        button.addEventListener("click", () => selectStudentSeat(button.dataset.seat));
-      });
-
-      document.querySelectorAll("#teacherSeatGrid .seat-button").forEach(button => {
-        button.addEventListener("click", () => {
-          const seat = button.dataset.reviewSeat;
-          showReview(recordForReviewSeat(seat), seat);
+          showReview(recordForReviewSeat(button.dataset.reviewSeat), button.dataset.reviewSeat);
         });
       });
 
@@ -708,10 +866,10 @@
         reviewEmpty.classList.remove("is-hidden");
       });
 
-      document.querySelectorAll(".color-swatch").forEach(swatch => {
+      document.querySelectorAll(".color-swatch").forEach((swatch) => {
         swatch.addEventListener("click", () => {
           brushColor = swatch.dataset.color;
-          document.querySelectorAll(".color-swatch").forEach(item => {
+          document.querySelectorAll(".color-swatch").forEach((item) => {
             const active = item.dataset.color === brushColor;
             item.classList.toggle("is-active-swatch", active);
             item.setAttribute("aria-checked", String(active));
@@ -722,23 +880,23 @@
 
       penButton.addEventListener("click", () => setTool("pen"));
       eraserButton.addEventListener("click", () => setTool("eraser"));
+
       clearButton.addEventListener("click", () => {
-        context.clearRect(0, 0, canvas.width / (window.devicePixelRatio || 1), canvas.height / (window.devicePixelRatio || 1));
         strokes = [];
-        hasDrawing = false;
-        message.classList.remove("is-hidden");
+        redrawPracticeCanvas();
       });
 
-      canvas.addEventListener("pointerdown", startDrawing);
-      canvas.addEventListener("pointermove", draw);
-      canvas.addEventListener("pointerup", stopDrawing);
-      canvas.addEventListener("pointercancel", stopDrawing);
-      canvas.addEventListener("pointerleave", stopDrawing);
+      canvas.addEventListener("pointerdown", beginStroke);
+      canvas.addEventListener("pointermove", continueStroke);
+      canvas.addEventListener("pointerup", endStroke);
+      canvas.addEventListener("pointercancel", endStroke);
+      canvas.addEventListener("pointerleave", endStroke);
 
       const dataHandler = {
         onDataChanged(data) {
           records = data;
           updateTeacherGrid();
+
           if (selectedReviewSeat) {
             showReview(recordForReviewSeat(selectedReviewSeat), selectedReviewSeat);
           }
@@ -746,70 +904,76 @@
       };
 
       if (window.dataSdk) {
-        const result = await window.dataSdk.init(dataHandler);
-        sdkReady = result.isOk;
+        const initResult = await window.dataSdk.init(dataHandler);
+        sdkReady = initResult.isOk;
+
         if (!sdkReady) {
-          submitStatus.textContent = "目前無法連線，請稍後再試。";
+          submitStatus.textContent = "無法連線到 Canva Sheet，請稍後再試。";
           submitStatus.className = "mt-4 min-h-6 font-bold text-[#c44731]";
         }
+      } else {
+        submitStatus.textContent = "無法連線到 Canva Sheet。";
+        submitStatus.className = "mt-4 min-h-6 font-bold text-[#c44731]";
       }
 
       submitButton.addEventListener("click", async () => {
         const className = classNameInput.value.trim();
+        const notes = selectedNotesArray();
 
         if (!className || !selectedSeat) {
-          submitStatus.textContent = "請先填寫班級並選擇座號，再送出學習單。";
+          submitStatus.textContent = "請填寫班級名稱並選擇座號！";
           submitStatus.className = "mt-4 min-h-6 font-bold text-[#c44731]";
           return;
         }
 
-        if (!sdkReady) {
-          submitStatus.textContent = "目前無法送出，請稍後再試。";
+        if (!notes.length) {
+          submitStatus.textContent = "請在第三行五線譜點選至少一個音符。";
           submitStatus.className = "mt-4 min-h-6 font-bold text-[#c44731]";
           return;
         }
 
-        const matchingRecords = records.filter(record =>
-          record.class_name === className && String(record.seat_number) === String(selectedSeat)
-        );
+        if (!sdkReady || !window.dataSdk) {
+          submitStatus.textContent = "傳送失敗，請重新整理後再試。";
+          submitStatus.className = "mt-4 min-h-6 font-bold text-[#c44731]";
+          return;
+        }
 
-        if (records.length >= 999 && matchingRecords.length === 0) {
-          submitStatus.textContent = "已達到可儲存的學習單上限，請通知老師。";
+        const existingRecord = recordForReviewSeat(selectedSeat);
+
+        if (!existingRecord && records.length >= 999) {
+          submitStatus.textContent = "Canva Sheet 已滿，請聯絡老師。";
           submitStatus.className = "mt-4 min-h-6 font-bold text-[#c44731]";
           return;
         }
 
         submitButton.disabled = true;
         submitButton.classList.add("opacity-60", "cursor-not-allowed");
-        submitStatus.textContent = "正在送出學習單…";
+        submitStatus.textContent = "正在傳送作業…";
         submitStatus.className = "mt-4 min-h-6 font-bold text-[#7a5127]";
 
-        const latestMatch = matchingRecords.sort((a, b) => new Date(b.submitted_at) - new Date(a.submitted_at))[0];
         const payload = {
           class_name: className,
-          seat_number: selectedSeat,
-          selected_notes: Array.from(selectedNotes).join("、"),
-          drawing_data: hasDrawing ? "已完成繪圖或書寫" : "未使用繪圖區",
+          seat_number: String(selectedSeat).trim(),
+          selected_notes: notes.join(", "),
+          drawing_data: strokes.length ? "Contains practice drawing" : "No practice drawing",
           drawing_strokes: JSON.stringify(strokes),
+          staff_strokes: JSON.stringify(notes),
           submitted_at: new Date().toISOString()
         };
 
-        let result;
-        if (latestMatch) {
-          result = await window.dataSdk.update({ ...latestMatch, ...payload });
-        } else {
-          result = await window.dataSdk.create(payload);
-        }
+        const result = existingRecord
+          ? await window.dataSdk.update({ __backendId: existingRecord.__backendId, ...payload })
+          : await window.dataSdk.create(payload);
 
         submitButton.disabled = false;
         submitButton.classList.remove("opacity-60", "cursor-not-allowed");
 
         if (result.isOk) {
-          submitStatus.textContent = "完成！老師已收到你的學習單。";
-          submitStatus.className = "mt-4 min-h-6 font-bold text-[#27834b]";
+          submitStatus.textContent = "😊 已成功傳送給老師！";
+          submitStatus.className = "mt-4 min-h-6 text-lg font-bold text-[#27834b]";
         } else {
-          submitStatus.textContent = "送出失敗，請檢查網路後再試一次。";
-          submitStatus.className = "mt-4 min-h-6 font-bold text-[#c44731]";
+          submitStatus.textContent = "😢 傳送失敗，請再試一次。";
+          submitStatus.className = "mt-4 min-h-6 text-lg font-bold text-[#c44731]";
         }
       });
 
@@ -817,6 +981,7 @@
       window.addEventListener("resize", resizeCanvas);
       setTool("pen");
       document.querySelector(".color-swatch").classList.add("is-active-swatch");
+      renderSelectedNotes();
       updateTeacherGrid();
     });
   </script>
